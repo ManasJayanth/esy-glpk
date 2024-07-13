@@ -1,0 +1,23 @@
+{
+  "name": "esy-glpk",
+  "version": "0.1.0",
+  "description": "esy-glpk packaged for esy",
+  "source": "https://ftp.gnu.org/gnu/glpk/glpk-5.0.tar.gz#sha256:4a1013eebb50f728fc601bdd833b0b2870333c3b3e5a816eeba921d95bec6f15",
+  "override": {
+    "build": [
+      "./configure #{os == 'windows' ? '--host=x86_64-w64-mingw32' : ''} #{os == 'darwin' ? '--disable-dependency-tracking': ''} --prefix=#{self.install} --with-gmp",
+      "make -j#{self.jobs}"
+    ],
+    "install": "make install",
+    "buildsInSource": true,
+    "exportedEnv": {
+      "PKG_CONFIG_PATH": {
+        "val": "#{self.lib / 'pkgconfig'}",
+        "scope": "global"
+      }
+    },
+    "dependencies": {
+      "esy-gmp": "*"
+    }
+  }
+}
